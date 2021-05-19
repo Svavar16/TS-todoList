@@ -1,0 +1,26 @@
+{
+	"name": "ts-todolist",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"start": "cd build && nodemon server.js",
+		"tsc": "tsc"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Svavar16/TS-todoList.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/Svavar16/TS-todoList/issues"
+	},
+	"homepage": "https://github.com/Svavar16/TS-todoList#readme",
+	"dependencies": {
+		"@types/express": "^4.17.11",
+		"express": "^4.17.1"
+	}
+}
