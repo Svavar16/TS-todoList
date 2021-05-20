@@ -1,6 +1,7 @@
-// here we will place the views
-const router = express.Router();
+import { Request, Response } from "express";
 
-router.get("/", (req: any, res: any) => {
-	res.status(200).send("Works!!");
-});
+export default (app: any) => {
+	app.get("/api/lists", (req: Request, res: Response) => {
+		res.status(200).send("Works!!");
+	});
+};
