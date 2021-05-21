@@ -1,2 +1,2 @@
 "use strict";
-// here we are going to place the controllers
+Object.defineProperty(exports, "__esModule", { value: true });

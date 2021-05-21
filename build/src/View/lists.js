@@ -1,13 +1,16 @@
 "use strict";
-// here we will place the views
-// const express = require("express");
-// export const listRouter = express.Router();
 Object.defineProperty(exports, "__esModule", { value: true });
-// listRouter.get("/", (req: any, res: any) => {
-// 	res.status(200).send("Works!!");
-// });
 exports.default = (function (app) {
     app.get("/api/lists", function (req, res) {
         res.status(200).send("Works!!");
+    });
+    app.post("/api/lists", function (req, res) {
+        res.status(200).send(req.body);
+    });
+    app.put("/api/lists/:listID", function (req, res) {
+        res.status(200).send("> updated " + req.params.listID);
+    });
+    app.delete("/api/lists/:listID", function (req, res) {
+        res.status(200).send("> deleted " + req.params.listID);
     });
 });
