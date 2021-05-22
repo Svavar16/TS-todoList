@@ -18,6 +18,6 @@ var lists_1 = __importDefault(require("./src/View/lists"));
 lists_1.default(app);
 // then we tell it what listen to this port
 app.listen(port, function () {
-    console.log("This application is listening on port: " + port);
+    console.log("> This application is listening on port: " + port);
 });
 exports.default = app;

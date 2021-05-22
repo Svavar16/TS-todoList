@@ -7,6 +7,6 @@ chai.should();
 
 describe("Lists tests", () => {
 	describe("List controllers, and model", () => {
-		it("testing allArticles", () => {});
+		it("testing lists controller", () => {});
 	});
 });

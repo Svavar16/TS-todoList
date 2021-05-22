@@ -9,6 +9,6 @@ chai_1.default.use(chai_http_1.default);
 chai_1.default.should();
 describe("Lists tests", function () {
     describe("List controllers, and model", function () {
-        it("testing allArticles", function () { });
+        it("testing lists controller", function () { });
     });
 });
