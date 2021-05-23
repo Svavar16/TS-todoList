@@ -28,4 +28,12 @@ const todolistController = {
 	getListById(listId: string) {
 		return todoListModel.findById(listId) || [];
 	},
+
+	async updateItemInList() {},
+
+	async updateList() {},
+
+	deleteItem() {},
+
+	deleteList() {},
 };
