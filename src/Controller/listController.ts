@@ -62,9 +62,27 @@ const todolistController = {
 	 * @param newName string
 	 * @returns mongoDB Query
 	 */
-	async updateListName(listId: string, newName: string) {},
+	async updateListName(listId: string, newName: string) {
+		return todoListModel.findByIdAndUpdate(listId, { name: newName });
+	},
 
-	deleteItem() {},
+	deleteItem(itemId: string) {
+		return itemsModel.findByIdAndDelete(itemId);
+	},
 
-	deleteList() {},
+	async deleteList(listId: string) {
+		interface Iitems {
+			_id: string;
+			item: string;
+		}
+		interface ItodoList {
+			name: string;
+			items: [item: Iitems];
+		}
+		const listToDelete: ItodoList = await todoListModel.findById(listId);
+		for (var i = 0; i < listToDelete.items.length; i++) {
+			await itemsModel.findByIdAndDelete(listToDelete.items[i]._id);
+		}
+		return todoListModel.findByIdAndDelete(listId);
+	},
 };
