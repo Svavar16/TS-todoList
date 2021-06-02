@@ -1,7 +1,7 @@
 // here we will place the models
 import { Schema, Model, Document, model } from "mongoose";
 
-interface items extends Document {
+export interface Iitems extends Document {
 	item: string;
 }
 
@@ -9,11 +9,11 @@ const itemsSchema: Schema = new Schema({
 	item: String,
 });
 
-export const itemsModel: Model<items> = model("item", itemsSchema);
+export const itemsModel: Model<Iitems> = model("item", itemsSchema);
 
-interface ItodoList extends Document {
+export interface ItodoList extends Document {
 	name: string;
-	items: [item: Model<items>];
+	items: [item: Model<Iitems>];
 }
 
 const todoList: Schema = new Schema({
@@ -21,6 +21,4 @@ const todoList: Schema = new Schema({
 	items: [itemsSchema],
 });
 
-const todoListModel: Model<ItodoList> = model("list", todoList);
-
-export default todoListModel;
+export default model<ItodoList>("list", todoList);
