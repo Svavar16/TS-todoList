@@ -1,5 +1,9 @@
 // here we are going to place the controllers
-import todoListModel, { itemsModel } from "../Model/listModel";
+import todoListModel, {
+	itemsModel,
+	Iitems,
+	ItodoList,
+} from "../Model/listModel";
 
 /**
  * todo list controllers
@@ -19,14 +23,6 @@ const todolistController = {
 	 * @returns JSON
 	 */
 	async postNewItem(item: string, listId: string) {
-		interface Iitems {
-			item: string;
-		}
-
-		interface ItodoList {
-			name: string;
-			items: [item: Iitems];
-		}
 		const newItem: any = itemsModel.create(item);
 		const listToSaveToo = todoListModel.findById(
 			listId,
@@ -66,20 +62,22 @@ const todolistController = {
 		return todoListModel.findByIdAndUpdate(listId, { name: newName });
 	},
 
+	/**
+	 * Deletes a specific item
+	 * @param itemId String
+	 * @returns mongoDB query
+	 */
 	deleteItem(itemId: string) {
 		return itemsModel.findByIdAndDelete(itemId);
 	},
 
+	/**
+	 * should delete a list, and all that it contains
+	 * @param listId string
+	 * @returns mongoDB query
+	 */
 	async deleteList(listId: string) {
-		interface Iitems {
-			_id: string;
-			item: string;
-		}
-		interface ItodoList {
-			name: string;
-			items: [item: Iitems];
-		}
-		const listToDelete: ItodoList = await todoListModel.findById(listId);
+		const listToDelete: any = await todoListModel.findById(listId);
 		for (var i = 0; i < listToDelete.items.length; i++) {
 			await itemsModel.findByIdAndDelete(listToDelete.items[i]._id);
 		}
