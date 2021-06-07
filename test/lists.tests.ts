@@ -44,13 +44,11 @@ describe("Lists tests", () => {
 				"testList"
 			);
 			expect(foundList).to.have.property("name", "testList");
-			console.log(foundList);
 			const listToDelete = await todolistController.deleteList(
 				foundList?._id
 			);
 			expect(listToDelete).to.not.be.undefined;
 			expect(listToDelete).to.not.be.null;
-			console.log(listToDelete);
 		});
 	});
 });

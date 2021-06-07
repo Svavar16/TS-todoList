@@ -54,85 +54,53 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-// here we are going to place the controllers
-var listModel_1 = __importStar(require("../Model/listModel"));
-/**
- * todo list controllers
- */
-var todolistController = {
-    /**
-     * Returns all lists
-     * @returns JSON
-     */
-    getAllLists: function () {
-        return listModel_1.listModel.find() || [];
-    },
-    /**
-     * Creates a new list
-     * @param name String
-     * @returns mongoDB
-     */
-    postNewList: function (name) {
-        return listModel_1.listModel.create({ name: name });
-    },
-    /**
-     * Returns a list by ID
-     * @param listId String
-     * @returns JSON
-     */
-    getListById: function (listId) {
-        return listModel_1.listModel.findById(listId) || [];
-    },
-    /**
-     * Returns a list by name
-     * @param name
-     * @returns mongoDB query
-     */
-    getListByName: function (name) {
-        return listModel_1.listModel.findOne({ name: name });
-    },
-    /**
-     * Updates a specifics lists name
-     * @param listId string
-     * @param newName string
-     * @returns mongoDB Query
-     */
-    updateListName: function (listId, newName) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                return [2 /*return*/, listModel_1.listModel.findByIdAndUpdate(listId, { name: newName })];
-            });
-        });
-    },
-    /**
-     * should delete a list, and all that it contains
-     * @param listId string
-     * @returns mongoDB query
-     */
-    deleteList: function (listId) {
-        return __awaiter(this, void 0, void 0, function () {
-            var itemInList, i;
+var chai_1 = __importStar(require("chai"));
+var chai_http_1 = __importDefault(require("chai-http"));
+var itemController_1 = __importDefault(require("../src/Controller/itemController"));
+var listController_1 = __importDefault(require("../src/Controller/listController"));
+require("mocha");
+require("../src/Model/_db");
+// import app from "../server";
+chai_1.default.use(chai_http_1.default);
+chai_1.default.should();
+describe("Items tests", function () {
+    describe("Items Controller", function () {
+        it("Should create an item", function () { return __awaiter(void 0, void 0, void 0, function () {
+            var listToUse, createdItem;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, listModel_1.default.find({
-                            listToConnect: listId,
-                        })];
+                    case 0: return [4 /*yield*/, listController_1.default.postNewList("testList")];
                     case 1:
-                        itemInList = _a.sent();
-                        if (itemInList.length === 0) {
-                            return [2 /*return*/, listModel_1.listModel.findByIdAndDelete(listId)];
-                        }
-                        else {
-                            for (i = 0; i < itemInList.length; i++) {
-                                listModel_1.default.findByIdAndDelete(itemInList[i]._id);
-                            }
-                            return [2 /*return*/, listModel_1.listModel.findByIdAndDelete(listId)];
-                        }
+                        listToUse = _a.sent();
+                        chai_1.expect(listToUse).to.have.property("name", "testList");
+                        return [4 /*yield*/, itemController_1.default.postNewItem("testItem", listToUse._id)];
+                    case 2:
+                        createdItem = _a.sent();
+                        console.log(typeof createdItem.listToConnect);
+                        chai_1.expect(createdItem).to.have.property("item", "testItem");
+                        chai_1.expect(createdItem).to.have.property("listToConnect", listToUse._id.toString());
                         return [2 /*return*/];
                 }
             });
-        });
-    },
-};
-exports.default = todolistController;
+        }); });
+        it("Should find item by name", function () { return __awaiter(void 0, void 0, void 0, function () { return __generator(this, function (_a) {
+            return [2 /*return*/];
+        }); }); });
+        it("Should find item by Id", function () { return __awaiter(void 0, void 0, void 0, function () { return __generator(this, function (_a) {
+            return [2 /*return*/];
+        }); }); });
+        it("Should find items in a list", function () { return __awaiter(void 0, void 0, void 0, function () { return __generator(this, function (_a) {
+            return [2 /*return*/];
+        }); }); });
+        it("Should update an item", function () { return __awaiter(void 0, void 0, void 0, function () { return __generator(this, function (_a) {
+            return [2 /*return*/];
+        }); }); });
+        it("Should delete an item", function () { return __awaiter(void 0, void 0, void 0, function () { return __generator(this, function (_a) {
+            return [2 /*return*/];
+        }); }); });
+    });
+});

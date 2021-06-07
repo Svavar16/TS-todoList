@@ -1,23 +1,4 @@
 "use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -54,85 +35,75 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-// here we are going to place the controllers
-var listModel_1 = __importStar(require("../Model/listModel"));
-/**
- * todo list controllers
- */
-var todolistController = {
+var listModel_1 = __importDefault(require("../Model/listModel"));
+var itemsController = {
     /**
-     * Returns all lists
-     * @returns JSON
+     * Find a single item by id
+     * @param itemId String
+     * @returns mongoDB query
      */
-    getAllLists: function () {
-        return listModel_1.listModel.find() || [];
+    getItemById: function (itemId) {
+        return listModel_1.default.findById(itemId);
     },
     /**
-     * Creates a new list
+     * Find a single item by name
      * @param name String
-     * @returns mongoDB
+     * @returns mongoDB query
      */
-    postNewList: function (name) {
-        return listModel_1.listModel.create({ name: name });
+    getItemByName: function (name) {
+        return listModel_1.default.findOne({ item: name });
     },
     /**
-     * Returns a list by ID
+     *
+     * @param listId String
+     * @returns mongoDB query
+     */
+    getAllItemsWithinAList: function (listId) {
+        return listModel_1.default.find({ listToConnect: listId });
+    },
+    /**
+     * Creates a new item within a list
+     * @param item String
      * @param listId String
      * @returns JSON
      */
-    getListById: function (listId) {
-        return listModel_1.listModel.findById(listId) || [];
+    postNewItem: function (item, listId) {
+        return __awaiter(this, void 0, void 0, function () {
+            var newItemToSave, newItem;
+            return __generator(this, function (_a) {
+                newItemToSave = {
+                    item: item,
+                    listToConnect: listId,
+                };
+                newItem = listModel_1.default.create(newItemToSave);
+                return [2 /*return*/, newItem];
+            });
+        });
     },
     /**
-     * Returns a list by name
-     * @param name
-     * @returns mongoDB query
-     */
-    getListByName: function (name) {
-        return listModel_1.listModel.findOne({ name: name });
-    },
-    /**
-     * Updates a specifics lists name
-     * @param listId string
-     * @param newName string
+     * Updates a item within a list
+     * @param updatedItem String
+     * @param itemId String
      * @returns mongoDB Query
      */
-    updateListName: function (listId, newName) {
+    updateItemInList: function (updatedItem, itemId) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/, listModel_1.listModel.findByIdAndUpdate(listId, { name: newName })];
+                return [2 /*return*/, listModel_1.default.findByIdAndUpdate(itemId, { item: updatedItem })];
             });
         });
     },
     /**
-     * should delete a list, and all that it contains
-     * @param listId string
+     * Deletes a specific item
+     * @param itemId String
      * @returns mongoDB query
      */
-    deleteList: function (listId) {
-        return __awaiter(this, void 0, void 0, function () {
-            var itemInList, i;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, listModel_1.default.find({
-                            listToConnect: listId,
-                        })];
-                    case 1:
-                        itemInList = _a.sent();
-                        if (itemInList.length === 0) {
-                            return [2 /*return*/, listModel_1.listModel.findByIdAndDelete(listId)];
-                        }
-                        else {
-                            for (i = 0; i < itemInList.length; i++) {
-                                listModel_1.default.findByIdAndDelete(itemInList[i]._id);
-                            }
-                            return [2 /*return*/, listModel_1.listModel.findByIdAndDelete(listId)];
-                        }
-                        return [2 /*return*/];
-                }
-            });
-        });
+    deleteItem: function (itemId) {
+        return listModel_1.default.findByIdAndDelete(itemId);
     },
 };
-exports.default = todolistController;
+exports.default = itemsController;

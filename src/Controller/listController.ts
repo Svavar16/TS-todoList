@@ -12,22 +12,6 @@ const todolistController = {
 	getAllLists() {
 		return listModel.find() || [];
 	},
-	/**
-	 * Creates a new item within a list
-	 * @param item String
-	 * @param listId String
-	 * @returns JSON
-	 */
-	async postNewItem(item: string, listId: string) {
-		const newItem: any = itemsModel.create(item);
-		const listToSaveToo: any = listModel.findById(
-			listId,
-			function (err: any, foundList: any) {
-				foundList.items.push(newItem);
-			}
-		);
-		return listToSaveToo;
-	},
 
 	/**
 	 * Creates a new list
@@ -57,16 +41,6 @@ const todolistController = {
 	},
 
 	/**
-	 * Updates a item within a list
-	 * @param updatedItem String
-	 * @param itemId String
-	 * @returns mongoDB Query
-	 */
-	async updateItemInList(updatedItem: string, itemId: string) {
-		return itemsModel.findByIdAndUpdate(itemId, { item: updatedItem });
-	},
-
-	/**
 	 * Updates a specifics lists name
 	 * @param listId string
 	 * @param newName string
@@ -74,15 +48,6 @@ const todolistController = {
 	 */
 	async updateListName(listId: string, newName: string) {
 		return listModel.findByIdAndUpdate(listId, { name: newName });
-	},
-
-	/**
-	 * Deletes a specific item
-	 * @param itemId String
-	 * @returns mongoDB query
-	 */
-	deleteItem(itemId: string) {
-		return itemsModel.findByIdAndDelete(itemId);
 	},
 
 	/**

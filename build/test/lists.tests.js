@@ -67,7 +67,7 @@ require("../src/Model/_db");
 chai_1.default.use(chai_http_1.default);
 chai_1.default.should();
 describe("Lists tests", function () {
-    describe("List controllers, and model", function () {
+    describe("List controllers", function () {
         it("Should get all lists", function () { return __awaiter(void 0, void 0, void 0, function () {
             var testList;
             return __generator(this, function (_a) {
@@ -133,13 +133,11 @@ describe("Lists tests", function () {
                     case 1:
                         foundList = _a.sent();
                         chai_1.expect(foundList).to.have.property("name", "testList");
-                        console.log(foundList);
                         return [4 /*yield*/, listController_1.default.deleteList(foundList === null || foundList === void 0 ? void 0 : foundList._id)];
                     case 2:
                         listToDelete = _a.sent();
                         chai_1.expect(listToDelete).to.not.be.undefined;
                         chai_1.expect(listToDelete).to.not.be.null;
-                        console.log(listToDelete);
                         return [2 /*return*/];
                 }
             });
