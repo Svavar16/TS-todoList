@@ -1,24 +1,17 @@
 // here we will place the models
-import { Schema, Model, Document, model } from "mongoose";
+import { Schema, model } from "mongoose";
 
-export interface Iitems extends Document {
-	item: string;
-}
-
-const itemsSchema: Schema = new Schema({
+export const itemsSchema = new Schema({
 	item: String,
+	listToConnect: String,
 });
 
-export const itemsModel: Model<Iitems> = model("item", itemsSchema);
+const itemsModel = model("item", itemsSchema);
 
-export interface ItodoList extends Document {
-	name: string;
-	items: [item: Model<Iitems>];
-}
-
-const todoList: Schema = new Schema({
+export const todoList = new Schema({
 	name: String,
-	items: [itemsSchema],
 });
 
-export default model<ItodoList>("list", todoList);
+export const listModel = model("list", todoList);
+
+export default itemsModel;

@@ -1,9 +1,5 @@
 // here we are going to place the controllers
-import todoListModel, {
-	itemsModel,
-	Iitems,
-	ItodoList,
-} from "../Model/listModel";
+import itemsModel, { listModel } from "../Model/listModel";
 
 /**
  * todo list controllers
@@ -14,7 +10,7 @@ const todolistController = {
 	 * @returns JSON
 	 */
 	getAllLists() {
-		return todoListModel.find() || [];
+		return listModel.find() || [];
 	},
 	/**
 	 * Creates a new item within a list
@@ -24,13 +20,22 @@ const todolistController = {
 	 */
 	async postNewItem(item: string, listId: string) {
 		const newItem: any = itemsModel.create(item);
-		const listToSaveToo = todoListModel.findById(
+		const listToSaveToo: any = listModel.findById(
 			listId,
-			function (err: any, foundList: ItodoList) {
+			function (err: any, foundList: any) {
 				foundList.items.push(newItem);
 			}
 		);
 		return listToSaveToo;
+	},
+
+	/**
+	 * Creates a new list
+	 * @param name String
+	 * @returns mongoDB
+	 */
+	postNewList(name: string) {
+		return listModel.create({ name: name });
 	},
 
 	/**
@@ -39,7 +44,16 @@ const todolistController = {
 	 * @returns JSON
 	 */
 	getListById(listId: string) {
-		return todoListModel.findById(listId) || [];
+		return listModel.findById(listId) || [];
+	},
+
+	/**
+	 * Returns a list by name
+	 * @param name
+	 * @returns mongoDB query
+	 */
+	getListByName(name: string) {
+		return listModel.findOne({ name: name });
 	},
 
 	/**
@@ -59,7 +73,7 @@ const todolistController = {
 	 * @returns mongoDB Query
 	 */
 	async updateListName(listId: string, newName: string) {
-		return todoListModel.findByIdAndUpdate(listId, { name: newName });
+		return listModel.findByIdAndUpdate(listId, { name: newName });
 	},
 
 	/**
@@ -77,10 +91,18 @@ const todolistController = {
 	 * @returns mongoDB query
 	 */
 	async deleteList(listId: string) {
-		const listToDelete: any = await todoListModel.findById(listId);
-		for (var i = 0; i < listToDelete.items.length; i++) {
-			await itemsModel.findByIdAndDelete(listToDelete.items[i]._id);
+		const itemInList: any = await itemsModel.find({
+			listToConnect: listId,
+		});
+		if (itemInList.length === 0) {
+			return listModel.findByIdAndDelete(listId);
+		} else {
+			for (let i = 0; i < itemInList.length; i++) {
+				itemsModel.findByIdAndDelete(itemInList[i]._id);
+			}
+			return listModel.findByIdAndDelete(listId);
 		}
-		return todoListModel.findByIdAndDelete(listId);
 	},
 };
+
+export default todolistController;
