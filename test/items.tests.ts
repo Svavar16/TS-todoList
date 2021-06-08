@@ -18,15 +18,26 @@ describe("Items tests", () => {
 				"testItem",
 				listToUse._id
 			);
-			console.log(typeof createdItem.listToConnect);
 			expect(createdItem).to.have.property("item", "testItem");
 			expect(createdItem).to.have.property(
 				"listToConnect",
 				listToUse._id.toString()
 			);
 		});
-		it("Should find item by name", async () => {});
-		it("Should find item by Id", async () => {});
+		it("Should find item by name", async () => {
+			const itemToFind = await itemsController.getItemByName("testItem");
+			expect(itemToFind).to.have.property("item", "testItem");
+		});
+		it("Should find item by Id", async () => {
+			const itemToFindByName = await itemsController.getItemByName(
+				"testItem"
+			);
+			expect(itemToFindByName).to.have.property("item", "testItem");
+			const itemToFindById = await itemsController.getItemById(
+				itemToFindByName?._id
+			);
+			expect(itemToFindById).to.have.property("item", "testItem");
+		});
 		it("Should find items in a list", async () => {});
 		it("Should update an item", async () => {});
 		it("Should delete an item", async () => {});

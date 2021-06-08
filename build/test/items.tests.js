@@ -80,19 +80,42 @@ describe("Items tests", function () {
                         return [4 /*yield*/, itemController_1.default.postNewItem("testItem", listToUse._id)];
                     case 2:
                         createdItem = _a.sent();
-                        console.log(typeof createdItem.listToConnect);
                         chai_1.expect(createdItem).to.have.property("item", "testItem");
                         chai_1.expect(createdItem).to.have.property("listToConnect", listToUse._id.toString());
                         return [2 /*return*/];
                 }
             });
         }); });
-        it("Should find item by name", function () { return __awaiter(void 0, void 0, void 0, function () { return __generator(this, function (_a) {
-            return [2 /*return*/];
-        }); }); });
-        it("Should find item by Id", function () { return __awaiter(void 0, void 0, void 0, function () { return __generator(this, function (_a) {
-            return [2 /*return*/];
-        }); }); });
+        it("Should find item by name", function () { return __awaiter(void 0, void 0, void 0, function () {
+            var itemToFind;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, itemController_1.default.getItemByName("testItem")];
+                    case 1:
+                        itemToFind = _a.sent();
+                        chai_1.expect(itemToFind).to.have.property("item", "testItem");
+                        return [2 /*return*/];
+                }
+            });
+        }); });
+        it("Should find item by Id", function () { return __awaiter(void 0, void 0, void 0, function () {
+            var itemToFindByName, itemToFindById;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, itemController_1.default.getItemByName("testItem")];
+                    case 1:
+                        itemToFindByName = _a.sent();
+                        chai_1.expect(itemToFindByName).to.have.property("item", "testItem");
+                        return [4 /*yield*/, itemController_1.default.getItemById(itemToFindByName === null || itemToFindByName === void 0 ? void 0 : itemToFindByName._id)];
+                    case 2:
+                        itemToFindById = _a.sent();
+                        console.log(typeof (itemToFindByName === null || itemToFindByName === void 0 ? void 0 : itemToFindByName._id.toString()));
+                        console.log(typeof (itemToFindById === null || itemToFindById === void 0 ? void 0 : itemToFindById._id.toString()));
+                        chai_1.expect(itemToFindById).to.have.property("item", "testItem");
+                        return [2 /*return*/];
+                }
+            });
+        }); });
         it("Should find items in a list", function () { return __awaiter(void 0, void 0, void 0, function () { return __generator(this, function (_a) {
             return [2 /*return*/];
         }); }); });
